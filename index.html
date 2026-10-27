@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#d8f3f5">
+    <meta name="description" content="مشروع RIVA CLAV التفاعلي - درع الوقاية والعلاج ضد البكتيريا، استعراض العبوات الدوائية، والعدسة المكبرة التفاعلية">
+    <meta name="keywords" content="Rivaclav, Amoxicillin, Clavulanic Acid, المضادات الحيوية, ريفاكلاف, جرعات الدواء">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="مشروع RIVA CLAV التفاعلي">
+    <meta property="og:description" content="استكشف درع الحماية من البكتيريا وتفاصيل عبوات RIVA CLAV من خلال تجربة تفاعلية فريدة">
+    <meta property="og:image" content="poster-full.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="مشروع RIVA CLAV التفاعلي">
+    <meta property="twitter:description" content="استكشف درع الحماية من البكتيريا وتفاصيل عبوات RIVA CLAV">
+    <meta property="twitter:image" content="poster-full.jpg">
+
+    <!-- PWA / Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Fonts: Cairo for Arabic & Outfit for English numbers/badges -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <title>مشروع RIVA CLAV التفاعلي</title>
+    <style>
+        :root {
+            --primary-blue: #0072bc;
+            --primary-dark: #004080;
+            --accent-cyan: #00d2ff;
+            --bg-color: #d8f3f5;
+            --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
+            --font-en: 'Outfit', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            touch-action: none;
+            overscroll-behavior: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: var(--font-ar);
+            color: #1a3038;
+        }
+
+        /* -------------------------------------------
+           مسرح العرض الرئيسي (Stage)
+        ------------------------------------------- */
+        .stage {
+            --shield-w: min(38vw, 58vh, 540px);
+            --strip-w: calc(var(--shield-w) * 1.18);
+            --lift: min(50px, 6vh);
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 50% 50%, #eefbfb 0%, #d8f3f5 70%, #c4ebef 100%);
+        }
+
+        /* الشعار أحدث وأعلى الدرع */
+        .slogan-img {
+            position: absolute;
+            top: max(18px, env(safe-area-inset-top));
+            width: min(26vw, 52vh, 390px);
+            z-index: 5;
+            pointer-events: none;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            filter: drop-shadow(0 4px 10px rgba(0, 80, 120, 0.2)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+            animation: floatSlogan 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatSlogan {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        /* الدرع في منتصف الصفحة */
+        .shield-img {
+            position: absolute;
+            width: var(--shield-w);
+            z-index: 2;
+            pointer-events: none;
+            margin-top: var(--lift);
+            filter: drop-shadow(0 15px 30px rgba(0, 80, 120, 0.18));
+            transition: transform 0.3s ease;
+        }
+
+        /* شريط النص المتحرك فوق الدرع */
+        .strip-img {
+            position: absolute;
+            width: var(--strip-w);
+            z-index: 3;
+            pointer-events: none;
+            margin-top: var(--lift);
+            animation: floatStrip 3.5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 8px 16px rgba(0, 60, 100, 0.25));
+        }
+
+        @keyframes floatStrip {
+            0% { transform: translateY(0px) rotate(-1.5deg); }
+            100% { transform: translateY(-6px) rotate(1deg); }
+        }
+
+        /* العلب أسفل اليسار بشكل متناسق وتفاعلي */
+        .boxes-container {
+            position: absolute;
+            bottom: max(18px, env(safe-area-inset-bottom));
+            left: max(20px, env(safe-area-inset-left));
+            display: flex;
+            align-items: flex-end;
+            z-index: 20;
+        }
+
+        .box-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-left: calc(var(--box-w, 100px) * -0.33);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0.3s;
+        }
+
+        .box-wrapper:hover {
+            transform: translateY(-20px) scale(1.12);
+            z-index: 26;
+        }
+
+        .box-item {
+            --box-w: clamp(58px, min(15vw, 19vh), 150px);
+            width: var(--box-w);
+            height: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 14px 20px rgba(0,0,0,0.4));
+            border-radius: 6px;
+            display: block;
+        }
+
+        .box-badge {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0072bc, #003a6c);
+            color: #ffffff;
+            font-size: 10px;
+            font-family: var(--font-en);
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 12px;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        /* كانفاس البكتيريا والعدسة المكبرة */
+        #interactiveCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            cursor: grab;
+        }
+
+        #interactiveCanvas:active {
+            cursor: grabbing;
+        }
+
+        /* تلميح سحب العدسة التفاعلي */
+        .lens-hint {
+            position: absolute;
+            z-index: 15;
+            background: rgba(0, 40, 70, 0.82);
+            backdrop-filter: blur(8px);
+            color: #eaf7ff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulseHint 2.5s infinite;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { transform: translateY(0); opacity: 0.92; }
+            50% { transform: translateY(-4px); opacity: 1; }
+        }
+
+        /* -------------------------------------------
+           شريط الأدوات العلوي (Top Controls Bar)
+        ------------------------------------------- */
+        .top-bar {
+            position: absolute;
+            top: max(14px, env(safe-area-inset-top));
+            left: max(14px, env(safe-area-inset-left));
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 30;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0072bc 0%, #004080 100%);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.08);
+            box-shadow: 0 12px 22px rgba(0, 114, 188, 0.45);
+            background: linear-gradient(135deg, #0088e0 0%, #0050a0 100%);
+        }
+
+        .action-btn:active {
+            transform: translateY(1px) scale(0.96);
+        }
+
+        /* -------------------------------------------
+           نافذة العلبة المكبّرة التفصيلية (Box Modal)
+        ------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 20, 35, 0.78);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            position: relative;
+            max-width: 92vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.88);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-box-frame {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-img {
+            max-width: min(72vw, 56vh);
+            max-height: min(56vh, 80vw);
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 180, 220, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        /* أسهم التنقل بين العلب */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 60, 110, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(6px);
+            z-index: 10;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 120, 200, 0.9);
+            transform: translateY(-50%) scale(1.12);
+        }
+
+        .nav-btn.prev {
+            left: -56px;
+        }
+
+        .nav-btn.next {
+            right: -56px;
+        }
+
+        @media (max-width: 600px) {
+            .nav-btn.prev { left: 8px; }
+            .nav-btn.next { right: 8px; }
+        }
+
+        .modal-caption {
+            margin-top: 14px;
+            color: #eaf7ff;
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 700;
+            letter-spacing: .3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .5);
+            text-align: center;
+        }
+
+        .modal-subcaption {
+            margin-top: 4px;
+            color: #9fe2f8;
+            font-size: clamp(12px, 1.8vw, 15px);
+            font-family: var(--font-en);
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+
+        .dots-indicator {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: 10px;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.7);
+        }
+
+        .back-btn {
+            margin-bottom: 12px;
+            padding: 9px 24px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0072bc 0%, #004080 100%);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            direction: ltr;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #0088e0 0%, #0055b3 100%);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0, 114, 188, 0.5);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* -------------------------------------------
+           نافذة البوستر الشامل (Poster Modal)
+        ------------------------------------------- */
+        .poster-card {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .poster-img {
+            max-width: min(85vw, 68vh);
+            max-height: min(72vh, 85vw);
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 180, 220, 0.3);
+        }
+
+        .poster-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-glass {
+            padding: 9px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-glass:hover {
+            background: rgba(0, 180, 255, 0.35);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 210, 255, 0.3);
+        }
+
+        /* الإشعار السريع (Toast) */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 40, 70, 0.92);
+            color: #ffffff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--accent-cyan);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="stage" id="stage">
+        <!-- شريط التحكم العلوي -->
+        <header class="top-bar">
+            <!-- زر المشاركة -->
+            <button class="action-btn" id="shareBtn" onclick="handleShare()" title="مشاركة البوستر" aria-label="Share Poster">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line>
+                    <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+                </svg>
+            </button>
+
+            <!-- زر استعراض البوستر الكامل -->
+            <button class="action-btn" id="posterBtn" onclick="openPosterModal()" title="عرض البوستر الكامل" aria-label="View Full Poster">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </button>
+
+            <!-- زر ملء الشاشة -->
+            <button class="action-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="ملء الشاشة" aria-label="Toggle Fullscreen">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+            </button>
+
+            <!-- زر المؤثرات الصوتية -->
+            <button class="action-btn" id="soundBtn" onclick="toggleSound()" title="المؤثرات الصوتية" aria-label="Toggle Sound">
+                <svg id="soundOnIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                <svg id="soundOffIcon" style="display:none;" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+            </button>
+        </header>
+
+        <!-- الشعار مستقر أعلى الدرع -->
+        <img src="slogan.png" class="slogan-img" alt="Riva Clav Slogan">
+
+        <!-- الدرع في المنتصف -->
+        <img src="shield.png" class="shield-img" alt="Protective Shield">
+
+        <!-- الشريط فوق الدرع -->
+        <img src="strip.png" class="strip-img" alt="Riva Clav Strip">
+
+        <!-- علب الدواء الأربعة -->
+        <nav class="boxes-container" aria-label="Medicine boxes">
+            <div class="box-wrapper" onclick="openBoxIndex(0)">
+                <img src="box1.png" class="box-item" alt="Rivaclav 457 mg/5 ml">
+                <span class="box-badge">457 mg</span>
+            </div>
+            <div class="box-wrapper" onclick="openBoxIndex(1)">
+                <img src="box2.png" class="box-item" alt="Rivaclav 312.5 mg/5 ml">
+                <span class="box-badge">312.5 mg</span>
+            </div>
+            <div class="box-wrapper" onclick="openBoxIndex(2)">
+                <img src="box3.png" class="box-item" alt="Rivaclav 228.5 mg/5 ml">
+                <span class="box-badge">228.5 mg</span>
+            </div>
+            <div class="box-wrapper" onclick="openBoxIndex(3)">
+                <img src="box4.png" class="box-item" alt="Rivaclav 156 mg/5 ml">
+                <span class="box-badge">156 mg</span>
+            </div>
+        </nav>
+
+        <!-- تلميح العدسة المكبرة -->
+        <div id="lensHint" class="lens-hint">
+            <span>🔍 اسحب العدسة المكبرة لتكبير البكتيريا</span>
+        </div>
+
+        <!-- كانفاس تفاعل البكتيريا والعدسة -->
+        <canvas id="interactiveCanvas"></canvas>
+    </main>
+
+    <!-- نافذة تفاصيل العلبة المكبّرة (Box Modal) -->
+    <div id="boxModal" class="modal-overlay" onclick="closeBoxModalOnBg(event)" role="dialog" aria-modal="true">
+        <div class="modal-card">
+            <!-- زر الرجوع -->
+            <button class="back-btn" onclick="closeBoxModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Poster
+            </button>
+
+            <div class="modal-box-frame">
+                <button class="nav-btn prev" onclick="navigateBox(-1)" aria-label="Previous Box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+
+                <img id="modalBoxImg" class="modal-img" alt="Medicine Box Detail">
+
+                <button class="nav-btn next" onclick="navigateBox(1)" aria-label="Next Box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+
+            <div id="modalCaption" class="modal-caption"></div>
+            <div id="modalSubcaption" class="modal-subcaption"></div>
+
+            <div class="dots-indicator" id="dotsContainer">
+                <span class="dot" onclick="openBoxIndex(0)"></span>
+                <span class="dot" onclick="openBoxIndex(1)"></span>
+                <span class="dot" onclick="openBoxIndex(2)"></span>
+                <span class="dot" onclick="openBoxIndex(3)"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة استعراض البوستر الشامل (Poster Modal) -->
+    <div id="posterModal" class="modal-overlay" onclick="closePosterModalOnBg(event)" role="dialog" aria-modal="true">
+        <div class="poster-card">
+            <button class="back-btn" onclick="closePosterModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Close Poster
+            </button>
+
+            <img src="poster-full.jpg" class="poster-img" alt="RIVA CLAV Full Poster">
+
+            <div class="poster-actions">
+                <a href="poster-full.jpg" download="RivaClav-Poster.jpg" class="btn-glass" onclick="playClickSound()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    تحميل البوستر
+                </a>
+                <button class="btn-glass" onclick="copyPageLink()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    نسخ الرابط
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- الإشعار السريع -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // -------------------------------------------
+        // بيانات عبوات الدواء
+        // -------------------------------------------
+        const boxesData = [
+            {
+                img: 'box1.png',
+                title: 'Rivaclav 457 mg/5 ml — 70 ml',
+                subtitle: 'Amoxicillin / Clavulanic Acid (Ratio 7:1) · Oral Suspension'
+            },
+            {
+                img: 'box2.png',
+                title: 'Rivaclav 312.5 mg/5 ml — 100 ml',
+                subtitle: 'Amoxicillin / Clavulanic Acid (Ratio 4:1) · Oral Suspension'
+            },
+            {
+                img: 'box3.png',
+                title: 'Rivaclav 228.5 mg/5 ml — 70 ml',
+                subtitle: 'Amoxicillin / Clavulanic Acid (Ratio 7:1) · Oral Suspension'
+            },
+            {
+                img: 'box4.png',
+                title: 'Rivaclav 156 mg/5 ml — 100 ml',
+                subtitle: 'Amoxicillin / Clavulanic Acid (Ratio 4:1) · Oral Suspension'
+            }
+        ];
+
+        let currentBoxIndex = 0;
+
+        // -------------------------------------------
+        // محرك المؤثرات الصوتية (Web Audio API)
+        // -------------------------------------------
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playClickSound(freq = 600, duration = 0.06) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(freq * 0.5, ctx.currentTime + duration);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundOnIcon').style.display = soundEnabled ? 'block' : 'none';
+            document.getElementById('soundOffIcon').style.display = soundEnabled ? 'none' : 'block';
+            showToast(soundEnabled ? 'تم تفعيل الصوت' : 'تم كتم الصوت');
+            if (soundEnabled) playClickSound(800);
+        }
+
+        // -------------------------------------------
+        // إدارة النوافذ التفاعلية (Modals)
+        // -------------------------------------------
+        const boxModal = document.getElementById('boxModal');
+        const modalImg = document.getElementById('modalBoxImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalSubcaption = document.getElementById('modalSubcaption');
+        const posterModal = document.getElementById('posterModal');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateBoxModal() {
+            const data = boxesData[currentBoxIndex];
+            modalImg.src = data.img;
+            modalImg.alt = data.title;
+            modalCaption.textContent = data.title;
+            modalSubcaption.textContent = data.subtitle;
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentBoxIndex);
+            });
+        }
+
+        function openBoxIndex(index) {
+            playClickSound(750);
+            currentBoxIndex = (index + boxesData.length) % boxesData.length;
+            updateBoxModal();
+            boxModal.classList.add('active');
+        }
+
+        function navigateBox(direction) {
+            playClickSound(650);
+            openBoxIndex(currentBoxIndex + direction);
+        }
+
+        function closeBoxModal() {
+            playClickSound(400);
+            boxModal.classList.remove('active');
+        }
+
+        function closeBoxModalOnBg(event) {
+            if (event.target === boxModal) closeBoxModal();
+        }
+
+        function openPosterModal() {
+            playClickSound(700);
+            posterModal.classList.add('active');
+        }
+
+        function closePosterModal() {
+            playClickSound(400);
+            posterModal.classList.remove('active');
+        }
+
+        function closePosterModalOnBg(event) {
+            if (event.target === posterModal) closePosterModal();
+        }
+
+        // -------------------------------------------
+        // المشاركة ونسخ الرابط
+        // -------------------------------------------
+        async function handleShare() {
+            playClickSound(800);
+            // 1. التوافق مع تطبيق أندرويد الأصلي إذا تم تشغيله داخل WebView
+            if (window.Android && Android.sharePoster) {
+                Android.sharePoster();
+                return;
+            }
+
+            // 2. استخدام Web Share API إذا كان مدعوماً
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'مشروع RIVA CLAV التفاعلي',
+                        text: 'مشروع RIVA CLAV التفاعلي - درع الوقاية والعلاج ضد البكتيريا',
+                        url: window.location.href
+                    });
+                    showToast('تمت المشاركة بنجاح');
+                    return;
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        openPosterModal();
+                    }
+                    return;
+                }
+            }
+
+            // 3. البديل: فتح نافذة البوستر مع خيارات التحميل والنسخ
+            openPosterModal();
+        }
+
+        function copyPageLink() {
+            playClickSound(850);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showToast('تم نسخ رابط المشروع بنجاح!');
+                }).catch(() => {
+                    showToast('تعذر نسخ الرابط');
+                });
+            } else {
+                showToast('الرابط: ' + window.location.href);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2400);
+        }
+
+        // -------------------------------------------
+        // وضع ملء الشاشة
+        // -------------------------------------------
+        function toggleFullscreen() {
+            playClickSound(600);
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // -------------------------------------------
+        // اختصارات لوحة المفاتيح
+        // -------------------------------------------
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (boxModal.classList.contains('active')) closeBoxModal();
+                if (posterModal.classList.contains('active')) closePosterModal();
+            } else if (boxModal.classList.contains('active')) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowUp') navigateBox(-1); // RTL right is previous
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') navigateBox(1);
+            }
+        });
+
+        // -------------------------------------------
+        // الكانفاس والبكتيريا والعدسة المكبرة
+        // -------------------------------------------
+        const canvas = document.getElementById('interactiveCanvas');
+        const ctx = canvas.getContext('2d');
+        const lensHint = document.getElementById('lensHint');
+
+        let width = 0, height = 0, dpr = 1;
+        let hintDismissed = false;
+
+        function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+            const rect = canvas.getBoundingClientRect();
+            width = rect.width || window.innerWidth;
+            height = rect.height || window.innerHeight;
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            placeLens();
+            updateHintPosition();
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('orientationchange', () => setTimeout(resize, 250));
+
+        // صور الأصول
+        const lensImg = new Image();
+        lensImg.src = 'lens_2.png';
+
+        const bacteriaImages = [];
+        for (let i = 1; i <= 11; i++) {
+            const img = new Image();
+            img.src = `bact${i}.png`;
+            bacteriaImages.push(img);
+        }
+
+        function shieldCenter() {
+            return { cx: width / 2, cy: height / 2 + Math.min(50, height * 0.06) };
+        }
+
+        function shieldRadius() {
+            const shieldW = Math.min(width * 0.38, height * 0.58, 540);
+            return (shieldW * (1221 / 864)) / 2 * 0.9;
+        }
+
+        // إعدادات العدسة التفاعلية
+        const lens = {
+            x: 0,
+            y: 0,
+            radius: 0,
+            isDragging: false,
+            offsetX: 0,
+            offsetY: 0
+        };
+
+        function placeLens() {
+            lens.radius = Math.max(46, Math.min(110, Math.min(width, height) * 0.16));
+            lens.x = Math.max(lens.radius, Math.min(lens.x || width * 0.8, width - lens.radius * 0.6));
+            lens.y = Math.max(lens.radius, Math.min(lens.y || height * 0.66, height - lens.radius * 0.6));
+        }
+
+        function updateHintPosition() {
+            if (hintDismissed || !lensHint) return;
+            const hintX = Math.max(10, Math.min(width - 250, lens.x - 110));
+            const hintY = Math.max(60, lens.y - lens.radius - 40);
+            lensHint.style.left = hintX + 'px';
+            lensHint.style.top = hintY + 'px';
+        }
+
+        function dismissHint() {
+            if (hintDismissed) return;
+            hintDismissed = true;
+            if (lensHint) {
+                lensHint.style.opacity = '0';
+                lensHint.style.transform = 'translateY(-10px)';
+                setTimeout(() => lensHint.remove(), 500);
+            }
+        }
+
+        resize();
+        lens.x = width * 0.8;
+        lens.y = height * 0.66;
+        placeLens();
+        updateHintPosition();
+
+        function scale() {
+            return Math.max(0.45, Math.min(1, Math.min(width, height) / 700));
+        }
+
+        class Bacteria {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                const { cx, cy } = shieldCenter();
+                const keepOut = Math.max(150, shieldRadius() + 20);
+                do {
+                    this.x = Math.random() * (width - 150) + 75;
+                    this.y = Math.random() * (height - 150) + 75;
+                } while (Math.hypot(this.x - cx, this.y - cy) < keepOut);
+
+                const speed = (Math.random() * 1.2 + 0.8) * scale();
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.size = (Math.random() * 35 + 65) * scale();
+                this.img = bacteriaImages[Math.floor(Math.random() * bacteriaImages.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x - this.size/2 < 0) { this.x = this.size/2; this.vx *= -1; }
+                if (this.x + this.size/2 > width) { this.x = width - this.size/2; this.vx *= -1; }
+                if (this.y - this.size/2 < 0) { this.y = this.size/2; this.vy *= -1; }
+                if (this.y + this.size/2 > height) { this.y = height - this.size/2; this.vy *= -1; }
+
+                // ارتداد دقيق وسلس حول نطاق الدرع بالمنتصف
+                const { cx, cy } = shieldCenter();
+                const dx = this.x - cx;
+                const dy = this.y - cy;
+                const dist = Math.hypot(dx, dy);
+                const keepOut = shieldRadius();
+
+                if (dist < keepOut) {
+                    const angle = Math.atan2(dy, dx);
+                    this.x = cx + Math.cos(angle) * (keepOut + 5);
+                    this.y = cy + Math.sin(angle) * (keepOut + 5);
+
+                    const sp = Math.max(0.4, scale());
+                    this.vx = Math.cos(angle) * (Math.abs(this.vx) + 0.5 * sp);
+                    this.vy = Math.sin(angle) * (Math.abs(this.vy) + 0.5 * sp);
+                }
+            }
+
+            draw(targetCtx) {
+                if (this.img && this.img.complete) {
+                    targetCtx.drawImage(this.img, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+                }
+            }
+        }
+
+        const bacteriaList = [];
+        const bacteriaCount = Math.max(8, Math.min(22, Math.round((width * height) / 42000)));
+        for (let i = 0; i < bacteriaCount; i++) {
+            bacteriaList.push(new Bacteria());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. رسم أشكال البكتيريا المتحركة
+            bacteriaList.forEach(b => {
+                b.update();
+                b.draw(ctx);
+            });
+
+            // 2. تطبيق تأثير التكبير داخل العدسة المكبرة
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(lens.x, lens.y, lens.radius, 0, Math.PI * 2);
+            ctx.clip();
+
+            const zoom = 1.85;
+            ctx.save();
+            ctx.translate(lens.x, lens.y);
+            ctx.scale(zoom, zoom);
+            ctx.translate(-lens.x, -lens.y);
+
+            bacteriaList.forEach(b => {
+                if (b.img && b.img.complete) {
+                    ctx.drawImage(b.img, b.x - b.size/2, b.y - b.size/2, b.size, b.size);
+                }
+            });
+
+            ctx.restore();
+
+            // طبقة إضاءة وانعكاس زجاج العدسة
+            const glassGrad = ctx.createRadialGradient(
+                lens.x - lens.radius*0.3, lens.y - lens.radius*0.3, lens.radius*0.1,
+                lens.x, lens.y, lens.radius
+            );
+            glassGrad.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
+            glassGrad.addColorStop(0.7, 'rgba(255, 255, 255, 0.05)');
+            glassGrad.addColorStop(1, 'rgba(0, 150, 200, 0.3)');
+            ctx.fillStyle = glassGrad;
+            ctx.fill();
+
+            ctx.restore();
+
+            // 3. رسم إطار العدسة الحقيقي
+            if (lensImg.complete && lensImg.naturalWidth !== 0) {
+                const lensDrawSize = lens.radius * 2.7;
+                ctx.drawImage(
+                    lensImg, 
+                    lens.x - lens.radius * 1.05, 
+                    lens.y - lens.radius * 1.05, 
+                    lensDrawSize, 
+                    lensDrawSize
+                );
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // -------------------------------------------
+        // التفاعل بالسحب والإفلات للعدسة
+        // -------------------------------------------
+        function getPointer(e) {
+            const src = e.touches ? e.touches[0] : e;
+            const rect = canvas.getBoundingClientRect();
+            return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+        }
+
+        function dragStart(e) {
+            if (boxModal.classList.contains('active') || posterModal.classList.contains('active')) return;
+
+            const p = getPointer(e);
+            const dist = Math.hypot(p.x - lens.x, p.y - lens.y);
+            if (dist <= lens.radius + 30) {
+                dismissHint();
+                playClickSound(900, 0.04);
+                lens.isDragging = true;
+                lens.offsetX = p.x - lens.x;
+                lens.offsetY = p.y - lens.y;
+                if (e.cancelable) e.preventDefault();
+            }
+        }
+
+        function dragMove(e) {
+            if (!lens.isDragging) return;
+            const p = getPointer(e);
+            lens.x = Math.max(lens.radius * 0.3, Math.min(width - lens.radius * 0.3, p.x - lens.offsetX));
+            lens.y = Math.max(lens.radius * 0.3, Math.min(height - lens.radius * 0.3, p.y - lens.offsetY));
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function dragEnd() {
+            if (lens.isDragging) {
+                lens.isDragging = false;
+            }
+        }
+
+        window.addEventListener('mousedown', dragStart);
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('mouseup', dragEnd);
+
+        window.addEventListener('touchstart', dragStart, { passive: false });
+        window.addEventListener('touchmove', dragMove, { passive: false });
+        window.addEventListener('touchend', dragEnd);
+
+        // إيماءات التمرير (Touch Swipe) للتنقل بين العلب في النافذة
+        let touchStartX = 0;
+        boxModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        boxModal.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diffX = touchEndX - touchStartX;
+            if (Math.abs(diffX) > 50) {
+                // في الواجهة العربية RTL: السحب لليمين يعيد للسابقة، ولليسار للتالية
+                if (diffX > 0) navigateBox(-1);
+                else navigateBox(1);
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>

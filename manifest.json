@@ -1,0 +1,23 @@
+{
+  "name": "مشروع RIVA CLAV التفاعلي",
+  "short_name": "RivaClav",
+  "description": "مشروع RIVA CLAV التفاعلي - درع الوقاية والعلاج ضد البكتيريا",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#d8f3f5",
+  "theme_color": "#0072bc",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
